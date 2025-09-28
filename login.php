@@ -1,27 +1,26 @@
 <?php
 session_start();
 
-// --- Dummy credentials for testing ---
+
 $valid_username = "riya";
 $valid_password = "12345";
 
-// --- Handle Logout ---
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
 
-    // Clear cookie
+
     setcookie("username", "", time() - 3600, "/");
     header("Location: login.php");
     exit();
 }
 
-// --- Auto-login using Cookie ---
+
 if (!isset($_SESSION['username']) && isset($_COOKIE['username'])) {
     $_SESSION['username'] = $_COOKIE['username'];
 }
 
-// --- Handle Login ---
+
 $error = "";
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
@@ -30,9 +29,9 @@ if (isset($_POST['login'])) {
     if ($username === $valid_username && $password === $valid_password) {
         $_SESSION['username'] = $username;
 
-        // Remember Me
+       
         if (isset($_POST['remember'])) {
-            setcookie("username", $username, time() + (86400 * 7), "/"); // 7 days
+            setcookie("username", $username, time() + (86400 * 7), "/");
         }
 
         header("Location: login.php");
@@ -148,3 +147,4 @@ if (isset($_POST['login'])) {
     </div>
 </body>
 </html>
+
